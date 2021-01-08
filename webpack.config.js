@@ -23,6 +23,14 @@ module.exports = {
           ]
       },
       {
+        test: /\.styl/, // 使用css预处理器
+        use: [
+          'style-loader', // 各模块自下往上处理，下面的处理完，会变成上面模块要处理的文件
+          'css-loader',
+          'stylus-loader'
+        ]
+      },
+      {
           test: /\.(gif|jpg|jpeg|png|svg)$/, // 处理图片
           use: [
               {
