@@ -20,7 +20,15 @@ Require stack:
 
 ## 解决方法
 
-使用`webpack-cli@3`的版本
+1. Webpack 5以后使用`webpack server`命令替代`webpack-dev-server`命令
+
+```
+webpack serve --config webpack.config.js
+```
+
+
+
+2. 使用`webpack-cli@3`的版本
 
 ```shell
 # 卸载当前的 webpack-cli

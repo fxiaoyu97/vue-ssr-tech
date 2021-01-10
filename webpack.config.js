@@ -25,6 +25,10 @@ const config = {
         loader: "vue-loader" // 匹配到相关文件时，处理时使用的模块
       },
       {
+        test: /\.jsx$/, // 处理jsx文件，需要在.babelrc配置中添加相关内容，安装相关模块(babel-load v8+)： @babel/core @babel/preset-env babel-loader 
+        loader: 'babel-loader'
+      },
+      {
         test: /\.css$/, // 处理css文件
         // css-loader只能处理css文件，不能把文件写入html文件中，需要借助其他模块
         use: [
@@ -37,6 +41,12 @@ const config = {
         use: [
           'style-loader', // 各模块自下往上处理，下面的处理完，会变成上面模块要处理的文件
           'css-loader', // 每个loader只处理它自己关心的那部分，不会管处理以后的文件
+          {
+            loader: 'postcss-loader',
+            options: {
+              sourceMap: true, // stylus-loader可以生成sourceMap文件，此处配置让postcss-loader直接使用已生成的文件，不再自己生成
+            }
+          },
           'stylus-loader'
         ]
       },
