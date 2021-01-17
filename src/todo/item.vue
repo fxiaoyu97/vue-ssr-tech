@@ -15,7 +15,11 @@ export default {
     }
   },
   methods: {
-    deleteTodo() {}
+    // 父子组件交互
+    deleteTodo() {
+      // 触发一个事件，父组件可以监听子组件触发的事件
+      this.$emit('del',this.todo.id)
+    }
   }
 }
 </script>
