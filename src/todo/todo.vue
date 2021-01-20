@@ -1,8 +1,18 @@
 <template>
   <section class="real-app">
     <input type="text" class="add-input" autofocus="autofocus" placeholder="接下来要做什么" @keyup.enter="addTodo" />
-    <Item :todo="todo" v-for="todo in todos" :key="todo.id" @del="deleteTodo"></Item>
-    <tabs :filter="filter"></tabs>
+    <Item 
+      :todo="todo" 
+      v-for="todo in filteredTodos" 
+      :key="todo.id" 
+      @del="deleteTodo"
+    />
+    <tabs 
+      :filter="filter" 
+      :todos="todos" 
+      @toggle="toggleFilter"
+      @clearAll="clearAllCompleted"
+    />
   </section>
 </template>
 <script>
@@ -21,6 +31,15 @@ export default {
     Item,
     Tabs
   },
+  computed:{
+    filteredTodos(){
+      if(this.filter==='all'){
+        return this.todos
+      }
+      const completed = this.filter==='completed'
+      return this.todos.filter(todo => completed===todo.completed)
+    }
+  },
   methods: {
     addTodo(e) {
       // unshift 插入在数组的第一项
@@ -36,6 +55,12 @@ export default {
         this.todos.findIndex((todo) => todo.id === id),
         1
       )
+    },
+    toggleFilter(state){
+      this.filter = state
+    },
+    clearAllCompleted(){
+      this.todos = this.todos.filter(todo => !todo.completed)
     }
   }
 }
