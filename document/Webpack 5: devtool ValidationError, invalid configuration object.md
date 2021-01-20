@@ -24,7 +24,7 @@ Webpack5 以后使用更加严格的检查方式，需要设置false
 修改代码如下所示：
 
 ```js
-config.devtool = isDev ? false : '#cheap-module-eval-source-map'
+config.devtool = 'cheap-module-source-map'
 ```
 
 
