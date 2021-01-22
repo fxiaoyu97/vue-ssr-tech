@@ -63,6 +63,7 @@ const config = {
     new HTMLPlugin(),
     new VueLoaderPlugin()
   ],
+
   mode: 'development'
 }
 
@@ -107,6 +108,11 @@ if (isDev) {
     new webpack.NoEmitOnErrorsPlugin()
   )
 } else {
+  // 单独打包js文件
+  config.entry = {
+    app: path.join(__dirname, 'src/index.js'),
+    vendor: ['vue']
+  }
   // 区分正式环境和开发环境的文件名称
   config.output = {
     filename: '[name].[chunkhash:8].js',
@@ -131,8 +137,21 @@ if (isDev) {
   // 指定输出文件的名字
   config.plugins.push(
     new MiniCssExtractPlugin({
-      filename: 'common.css'
+      filename: 'styles.[chunkhash].[name].css',
+      chunkFilename: '[id].css',
+      ignoreOrder: false, // Enable to remove warnings about conflicting order
     })
   )
+  // 类库文件的单独打包配置
+  config.optimization = {
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          name: 'vendor'
+        }
+      }
+    },
+    runtimeChunk: true
+  }
 }
 module.exports = config
